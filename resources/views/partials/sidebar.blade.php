@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -35,8 +35,8 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Quản lý lớp học:</h6>
-                <a class="collapse-item" href="buttons.html">Danh sách lớp</a>
-                <a class="collapse-item" href="cards.html">Thêm lớp</a>
+                <a class="collapse-item" href="{{ route('lophoc.index') }}">Danh sách lớp</a>
+                <a class="collapse-item" href="{{ route('lophoc.create') }}">Thêm lớp</a>
             </div>
         </div>
     </li>
