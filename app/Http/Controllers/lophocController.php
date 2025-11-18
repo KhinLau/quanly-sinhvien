@@ -3,12 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\HocVien;
 use App\Models\LopHoc;
 use App\Rules\NoVietnameseCharacters;
 
-class lophocController extends Controller
+
+class LopHocController extends Controller
 {
+    public function __construct()
+    {
+        // Áp dụng Middleware 'auth' cho TẤT CẢ phương thức TRỪ index và show.
+        $this->middleware('auth')->except(['index', 'show']); 
+        
+        // HOẶC: Chỉ áp dụng cho store, update, destroy
+        // $this->middleware('auth')->only(['store', 'update', 'destroy']);
+    }
+
     // Hiển thị danh sách lớp học
     public function index()
     {

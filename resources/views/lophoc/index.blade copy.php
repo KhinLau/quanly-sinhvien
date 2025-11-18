@@ -52,6 +52,8 @@
         </div>
     </div>
 
+    </div>
+    <!-- /.container-fluid -->
 @endsection
 @push('styles')
     <link href="{{ asset('libs/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">

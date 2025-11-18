@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\lophocController;
+use App\Http\Controllers\LopHocController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +18,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('lophoc',lophocController::class);
+Route::resource('lophoc',LopHocController::class);
+
 require __DIR__.'/auth.php';

@@ -44,8 +44,7 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    @include('partials.main')
-                    
+                    @include('partials.main')                    
 
                 </div>
                 <!-- /.container-fluid -->

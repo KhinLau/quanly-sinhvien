@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class hocvienController extends Controller
+class HocVienController extends Controller
 {
     //
 }

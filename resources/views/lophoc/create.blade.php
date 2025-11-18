@@ -1,8 +1,6 @@
 @extends('partials.layout')
 
 @section('content')
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
 
         <!-- DataTales Example -->
         <div class="card">
@@ -35,11 +33,7 @@
             </div>
         </div>
 
-    </div>
-    <!-- /.container-fluid -->
-
-    </div>
-    <!-- End of Main Content -->
+   
 @endsection
 
 @push('scripts')
