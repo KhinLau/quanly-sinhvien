@@ -26,10 +26,10 @@ class LopHocController extends Controller
         return view('lophoc.create');
     }
 
-     // Lưu lớp học mới
+    // Lưu lớp học mới
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'MA_LH' => ['required', new NoVietnameseCharacters],
             'ten_lop' => 'required|string|max:255',
@@ -79,5 +79,4 @@ class LopHocController extends Controller
 
         return view('lophoc.getStudent', compact('students', 'classroom')); // Truyền danh sách sinh viên và lớp học vào view
     }
-
 }
