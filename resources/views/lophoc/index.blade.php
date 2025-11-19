@@ -24,10 +24,10 @@
                         @forelse ($lophocs as $classroom)
                             <tr>
                                 <td>{{ $classroom->MA_LH }}</td>
-                                <td>{{ $classroom->tenlop }}</td>
+                                <td>{{ $classroom->ten_lop }}</td>
                                 <td>{{ $classroom->ghichu }}</td>
                                 <td>{{ $classroom->students_count }}</td>
-                                <td><a class="btn btn-success" href="{{ route('lophoc.edit', $classroom->Ma_LH) }}">Sửa</a>
+                                <td><a class="btn btn-success" href="{{ route('lophoc.edit', ['lophoc' => $classroom->MA_LH]) }}">Sửa</a> 
                                 </td>
                                 <td>
                                     <form action="{{ route('lophoc.destroy', $classroom->MA_LH) }}" method="POST"
@@ -37,7 +37,7 @@
                                         <button type="submit" class="btn btn-danger">Xóa</button>
                                     </form>
                                 </td>
-                                <td><a class="btn btn-success" href="{{ route('lophoc.show', $classroom->IdClass) }}">Xem
+                                <td><a class="btn btn-success" href="{{ route('lophoc.show', $classroom->MA_LH) }}">Xem
                                         Sinh
                                         Viên</a></td>
                             </tr>

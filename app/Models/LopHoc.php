@@ -21,7 +21,7 @@ class LopHoc extends Model
 
     protected $fillable = ['MA_LH', 'ten_lop', 'ghichu']; // Các trường có thể được gán hàng loạt
 
-    public function hocviens()
+    public function hoc_viens()
     {
         return $this->hasMany(HocVien::class, 'MA_LH'); // Mối quan hệ một-nhiều với bảng Student
     }

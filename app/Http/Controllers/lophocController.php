@@ -11,19 +11,11 @@ use App\Rules\NoVietnameseCharacters;
 
 class LopHocController extends Controller
 {
-    public function __construct()
-    {
-        // Áp dụng Middleware 'auth' cho TẤT CẢ phương thức TRỪ index và show.
-        $this->middleware('auth')->except(['index', 'show']); 
-        
-        // HOẶC: Chỉ áp dụng cho store, update, destroy
-        // $this->middleware('auth')->only(['store', 'update', 'destroy']);
-    }
 
     // Hiển thị danh sách lớp học
     public function index()
     {
-        $lophocs = LopHoc::withCount('hocviens')->get(); // Sử dụng withCount để lấy số lượng sinh viên
+        $lophocs = LopHoc::withCount('hoc_viens')->get(); // Sử dụng withCount để lấy số lượng sinh viên
 
         return view('lophoc.index', compact('lophocs'));
     }
@@ -37,43 +29,44 @@ class LopHocController extends Controller
      // Lưu lớp học mới
     public function store(Request $request)
     {
+        
         $request->validate([
             'MA_LH' => ['required', new NoVietnameseCharacters],
-            'tenlop' => 'required|string|max:255',
+            'ten_lop' => 'required|string|max:255',
             'ghichu' => 'nullable|string',
         ]);
-
+        //dd('Xác thực thành công và code tiếp tục chạy!');
         LopHoc::create($request->all()); // Tạo lớp học mới
         return redirect()->route('lophoc.index')->with('success', 'Lớp học đã được tạo thành công.');
     }
 
     // Hiển thị form sửa lớp học
-    public function edit(LopHoc $classroom)
+    public function edit(LopHoc $lophoc)
     {
-        return view('lophoc.edit', compact('classroom'));
+        return view('lophoc.edit', compact('lophoc'));
     }
 
     // Cập nhật lớp học
-    public function update(Request $request, Lophoc $classroom)
+    public function update(Request $request, Lophoc $lophoc)
     {
         $request->validate([
-            'NameClass' => 'required|string|max:255',
-            'Note' => 'nullable|string',
+            'ten_lop' => 'required|string|max:255',
+            'ghichu' => 'nullable|string',
         ]);
 
-        $classroom->update($request->all()); // Cập nhật thông tin lớp học
+        $lophoc->update($request->all()); // Cập nhật thông tin lớp học
         return redirect()->route('lophoc.index')->with('success', 'Lớp học đã được cập nhật thành công.');
     }
 
     // Xóa lớp học
-    public function destroy(LopHoc $classroom)
+    public function destroy(LopHoc $lophoc)
     {
-        if ($classroom->hoc_viens()->count() > 0) {
+        if ($lophoc->hoc_viens()->count() > 0) {
             // Nếu lớp học có sinh viên, xóa tất cả sinh viên trước
-            $classroom->hoc_viens()->delete();
+            $lophoc->hoc_viens()->delete();
         }
 
-        $classroom->delete(); // Xóa lớp học
+        $lophoc->delete(); // Xóa lớp học
         return redirect()->route('lophoc.index')->with('success', 'Lớp học đã được xóa thành công.');
     }
     // Hiển thị sinh viên theo class
