@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User; // Giả sử model của bạn là User
 use App\Models\LopHoc;
 use App\Models\HocVien;
+use App\Rules\NoVietnameseCharacters;
 
-class UserController extends Controller
+class HocVienController extends Controller
 {
     /**
      * Hiển thị danh sách tài nguyên. (GET /users)
@@ -15,8 +16,8 @@ class UserController extends Controller
     public function index()
     {
         // Trả về danh sách người dùng
-        $users = User::all();
-        return view('users.index', compact('users'));
+         $hocvien = HocVien::with('lop_hoc')->get();
+        return view('hocvien.index', compact('hocvien'));
     }
 
     /**
@@ -24,7 +25,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $lophoc = LopHoc::all();
+        return view('hocvien.create', compact('lophoc'));
     }
 
     /**
@@ -32,7 +34,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Logic xác thực và lưu dữ liệu người dùng mới
+        //dd('Chạy store!');
+        $validatedData = $request->validate([
+            'MSSV' =>  ['required', new NoVietnameseCharacters],
+            'ho' => 'required|string|max:255',
+            'ten' => 'required|string|max:255',
+            'ngaysinh' => 'required|date|date_format:Y-m-d|beforeOrEqual:'.now()->subYears(18)->toDateString(),
+            'gioitinh' => 'required|in:Nam,Nữ',
+            'Avatar' => 'nullable|image|max:2048',
+            'MA_LH' => 'required|exists:lop_hocs,MA_LH',
+        ]);
+        //dd('Xác thực thành công và code tiếp tục chạy!');
+        if ($request->hasFile('Avatar')) {
+            // Lưu tệp và lấy đường dẫn
+            $avatarPath = $request->file('Avatar')->store('avatars', 'public');
+            // Gán đường dẫn đúng cho Avatar
+            $validatedData['Avatar'] = $avatarPath;
+        } else {
+            $validatedData['Avatar'] = 'avatars/profile.png'; // Ảnh mặc định
+        }
+
+        // Tạo sinh viên mới với dữ liệu đã được validate
+        hocvien::create($validatedData);
+
+        return redirect()->route('hocvien.index')->with('success', 'Sinh viên đã được tạo thành công.');
     }
 
     /**

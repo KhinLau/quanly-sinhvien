@@ -51,8 +51,8 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Quản lý học viên:</h6>
-                <a class="collapse-item" href="utilities-color.html">Danh sách</a>
-                <a class="collapse-item" href="utilities-border.html">Thêm học viên</a>
+                <a class="collapse-item" href="{{ route('hocvien.index') }}">Danh sách</a>
+                <a class="collapse-item" href="{{ route('hocvien.create') }}">Thêm học viên</a>
 
             </div>
         </div>

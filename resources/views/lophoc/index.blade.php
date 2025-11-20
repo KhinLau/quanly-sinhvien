@@ -26,7 +26,7 @@
                                 <td>{{ $classroom->MA_LH }}</td>
                                 <td>{{ $classroom->ten_lop }}</td>
                                 <td>{{ $classroom->ghichu }}</td>
-                                <td>{{ $classroom->students_count }}</td>
+                                <td>{{ $classroom->hoc_viens_count }}</td>
                                 <td><a class="btn btn-success" href="{{ route('lophoc.edit', ['lophoc' => $classroom->MA_LH]) }}">Sửa</a> 
                                 </td>
                                 <td>

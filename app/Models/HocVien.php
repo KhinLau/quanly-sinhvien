@@ -20,7 +20,7 @@ class HocVien extends Model
     protected $fillable = ['MSSV', 'ho', 'ten', 'ngaysinh', 'gioitinh', 'Avatar', 'MA_LH'];
     // Các trường có thể được gán hàng loạt
 
-    public function classroom()
+    public function lop_hoc()
     {
         return $this->belongsTo(LopHoc::class, 'MA_LH'); // Mối quan hệ nhiều-một với bảng Classroom
     }

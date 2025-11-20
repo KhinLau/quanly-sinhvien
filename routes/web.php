@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LopHocController;
+use App\Http\Controllers\HocVienController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +20,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('lophoc',LopHocController::class);
+Route::resource('hocvien',HocVienController::class);
 
 require __DIR__.'/auth.php';

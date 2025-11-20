@@ -37,7 +37,7 @@
                                         <button type="submit" class="btn btn-danger">Xóa</button>
                                     </form>
                                 </td>
-                                <td><a class="btn btn-success" href="{{ route('lophoc.show', $classroom->IdClass) }}">Xem
+                                <td><a class="btn btn-success" href="{{ route('lophoc.show', $classroom->MA_LH) }}">Xem
                                         Sinh
                                         Viên</a></td>
                             </tr>
@@ -69,6 +69,4 @@
     <script src="{{ asset('libs/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('libs/js/demo/chart-pie-demo.js') }}"></script>
 @endpush
-</body>
 
-</html>
