@@ -7,6 +7,7 @@ use App\Models\User; // Giả sử model của bạn là User
 use App\Models\LopHoc;
 use App\Models\HocVien;
 use App\Rules\NoVietnameseCharacters;
+use Illuminate\Support\Facades\Storage;
 
 class HocVienController extends Controller
 {
@@ -65,23 +66,60 @@ class HocVienController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return view('hocvien.show', compact('user'));
     }
 
     /**
      * Hiển thị form chỉnh sửa tài nguyên đã chỉ định. (GET /users/{user}/edit)
      */
-    public function edit(User $user)
+    public function edit(HocVien $hocvien)
     {
-        return view('users.edit', compact('user'));
+        $lophoc = LopHoc::all();
+        return view('hocvien.edit', compact('hocvien','lophoc'));
     }
 
     /**
      * Cập nhật tài nguyên đã chỉ định trong bộ nhớ. (PUT/PATCH /users/{user})
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, HocVien $hocvien)
     {
-        // Logic xác thực và cập nhật dữ liệu người dùng
+        //dd('Chạy store!');
+        $validatedData = $request->validate([
+            'MSSV' =>  ['required', new NoVietnameseCharacters],
+            'ho' => 'required|string|max:255',
+            'ten' => 'required|string|max:255',
+            'ngaysinh' => 'required|date|date_format:Y-m-d|beforeOrEqual:'.now()->subYears(18)->toDateString(),
+            'gioitinh' => 'required|in:Nam,Nữ',
+            'Avatar' => 'nullable|image|max:2048',
+            'MA_LH' => 'required|exists:lop_hocs,MA_LH',
+        ]);
+        //dd('Xác thực thành công và code tiếp tục chạy!',$hocvien);
+        // Biến để lưu trữ đường dẫn của avatar
+        $avatarPath = $hocvien->Avatar;
+
+        if ($request->hasFile('Avatar')) {
+            // Xóa avatar cũ nếu tồn tại (tùy chọn)
+            if ($hocvien->Avatar) {
+                Storage::disk('public')->delete($hocvien->Avatar);
+            }
+
+            // Lưu hình đại diện mới
+            try {
+                $avatarPath = $request->file('Avatar')->store('avatars', 'public');                
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['Avatar' => 'Có lỗi xảy ra khi tải lên hình đại diện: ' . $e->getMessage()]);
+            }
+
+        }
+        // Cập nhật sinh viên với dữ liệu đã xác thực
+        $updateSuccess = $hocvien->update($request->except('Avatar') + ['Avatar' => $avatarPath]);
+
+        // Kiểm tra xem có thay đổi nào không
+        if (!$updateSuccess) {
+            return redirect()->back()->withErrors(['update' => 'Có lỗi xảy ra khi cập nhật thông tin sinh viên.']);
+        }
+
+        return redirect()->route('hocvien.index')->with('success', 'Sinh viên đã được cập nhật thành công.');
     }
 
     /**
